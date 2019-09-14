@@ -76,7 +76,14 @@ void setup() {
       //Oh yea! don't forget the GPS shield needs to get it's first fix
   oled.print("Revving up the GPS unit, please wait");
   oled.display();
-  delay(29000);
+  delay(750);
+  while(myGPS.getLatitude() == 0){
+    oled.clear(PAGE);
+    oled.setCursor(0,0);
+    oled.print("Looking for first fix, please wait");
+    oled.display();
+    delay(1000);
+  }
   oled.setCursor(0,0);
   oled.clear(PAGE);
   oled.print("Ready to start!");
