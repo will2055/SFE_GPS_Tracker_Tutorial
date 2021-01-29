@@ -1,5 +1,5 @@
 /******************************************************************************
-Google Earth KML GPS Position Logger v1.6
+Google Earth KML GPS Position Logger v1.7
 brandon.williams@sparkfun.com
 May 6, 2019
 
@@ -13,7 +13,7 @@ card to retrive the file and open using Google Earth.
 
 Resources:
 SFE MicroOLED library: SFE_MicroOLED.h
-SFE Ublox GPS library: http://librarymanager/All#SparkFun_Ublox_GPS 
+SFE u-blox GNSS library: //http://librarymanager/All#SparkFun_u-blox_GNSS 
 Arduino SD required libraries: SPI.h & SD.h
 
 Download Google Earth: https://www.google.com/earth/versions/
@@ -30,13 +30,13 @@ Board Definition Packages:
 //OLED and Ublox libraries
 #include <Wire.h>
 #include <SFE_MicroOLED.h>
-#include "SparkFun_Ublox_Arduino_Library.h"
+#include <SparkFun_u-blox_GNSS_Arduino_Library.h> //http://librarymanager/All#SparkFun_u-blox_GNSS
 
 #define PIN_RESET 9   //OLED
 #define DC_JUMPER 1   //OLED
 
 //create objects
-SFE_UBLOX_GPS myGPS;
+SFE_UBLOX_GNSS myGNSS; 
 MicroOLED oled(PIN_RESET, DC_JUMPER);
 File dataFile;
 
@@ -77,7 +77,7 @@ void setup() {
   oled.print("Revving up the GPS unit, please wait");
   oled.display();
   delay(750);
-  while(myGPS.getLatitude() == 0){
+  while(myGNSS.getLatitude() == 0){
     oled.clear(PAGE);
     oled.setCursor(0,0);
     oled.print("Looking for first fix, please wait");
@@ -108,7 +108,7 @@ void loop() {
     dataFile.println("<kml xmlns=\"http://www.opengis.net/kml/2.2\">");
     dataFile.println("<Document>");
     int state = 0;
-    myGPS.begin();
+    myGNSS.begin();
     /* "Continous" (not quite) loop will run until user performs kill action.
      *  
      *  1. Button is pushed and released, then one coordinate point will add to the file
@@ -141,10 +141,10 @@ void loop() {
           oled.clear(PAGE);
           oled.display();
         
-          float latitude = myGPS.getLatitude();
+          float latitude = myGNSS.getLatitude();
           latitude = latitude / 10000000;
           
-          float longitude = myGPS.getLongitude();
+          float longitude = myGNSS.getLongitude();
           longitude = longitude / 10000000;
 
           
