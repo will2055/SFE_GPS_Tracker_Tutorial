@@ -1,5 +1,5 @@
 /******************************************************************************
-Google Earth KML GPS Position Logger v1.6
+Google Earth KML GPS Position Logger v1.7
 brandon.williams@sparkfun.com
 May 6, 2019
 
